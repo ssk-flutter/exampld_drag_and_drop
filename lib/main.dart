@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _isAccepted = true;
   Offset? _dragOffset;
+  Offset? _dragTargetOffset;
   String _dragTargetStatus = '';
 
   @override
@@ -46,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('DragTarget\n$_dragTargetStatus'),
+                Text('DragTarget\n$_dragTargetStatus ${_dragTargetOffset ?? ''}'),
                 Row(
                   children: [
                     Expanded(
@@ -81,7 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _dragTarget({required bool accept}) => DragTarget(
         onMove: (details) {
           setState(() {
-            _dragTargetStatus = 'onMove: ${details.data} ${details.offset}';
+            _dragTargetStatus = 'onMove';
+            _dragTargetOffset = details.offset;
           });
         },
         onLeave: (details) {
@@ -192,6 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _resetData() {
     _dragOffset = null;
+    _dragTargetOffset = null;
     _dragTargetStatus = '';
   }
 
