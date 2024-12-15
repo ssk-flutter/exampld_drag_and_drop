@@ -33,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isAccepted = true;
   Offset? _dragOffset;
   Offset? _dragTargetOffset;
+  Offset? _anchorPosition;
   String _dragTargetStatus = '';
 
   @override
@@ -47,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('DragTarget\n$_dragTargetStatus ${_dragTargetOffset ?? ''}'),
+                Text(
+                    'DragTarget\n$_dragTargetStatus ${_dragTargetOffset ?? ''}'),
                 Row(
                   children: [
                     Expanded(
@@ -66,6 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 SizedBox(height: 80),
                 Text('Draggable${_dragOffset ?? ''}'),
+                if (_anchorPosition != null)
+                  Text('anchor: $_anchorPosition'),
                 Row(
                   children: [
                     _draggable(context),
@@ -133,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
               context.findRenderObject()! as RenderBox;
           final anchorPosition = renderObject.globalToLocal(position);
           print('position: $position , anchorPosition $anchorPosition');
+          setState(() => _anchorPosition = anchorPosition);
           return anchorPosition;
         },
         onDragStarted: () {
@@ -195,6 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _resetData() {
     _dragOffset = null;
     _dragTargetOffset = null;
+    _anchorPosition = null;
     _dragTargetStatus = '';
   }
 
